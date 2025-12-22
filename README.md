@@ -1,5 +1,7 @@
 # PC-ALE 2.0 Clean-Room Development Prospectus
 
+**Repository:** https://github.com/Alex-Pennington/PC-ALE
+
 **Project:** Phoenix Nest PC-ALE 2.0  
 **Author:** Alex Pennington, AAM402/KY4OLB  
 **Date:** 22 December 2025  
