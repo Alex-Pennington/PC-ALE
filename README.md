@@ -1,9 +1,15 @@
 # PC-ALE 2.0 Clean-Room Development Prospectus
+
 **Repository:** https://github.com/Alex-Pennington/PC-ALE
+
 **Project:** PC-ALE 2.0  
+
 **Author:** Alex Pennington, AAM402/KY4OLB  
+
 **Date:** 22 December 2025  
+
 **Version:** Draft 1.0
+
 ---
 ## Executive Summary
 Clean-room reimplementation of PC-ALE for amateur radio use, built entirely from public MIL-STD documents using AI-assisted development. No proprietary code. Modern cross-platform architecture.
