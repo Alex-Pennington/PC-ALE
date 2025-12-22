@@ -126,7 +126,7 @@ Direct integration with SDRplay RSP2 Pro hardware:
 - Signal analysis tooling for modem development
 - Currently resolving API linking (the stub header issue being worked today)
 
-### Real-Time MELP Voice Streaming
+### Real-Time Voice Streaming
 
 Steve Hajducek highlighted this in his announcement to the groups: **"He now has the vocoding streaming on RX in near-real time instead of waiting until MS110A EOM received which is HUGE."**
 
@@ -262,7 +262,7 @@ You don't have to go through Phoenix Nest to contribute code. If you have:
 | AQC-ALE | Rockwell spec | New | Medium |
 | 188-110A Modem | MIL-STD-188-110A | **DONE** (Pennington Core) | - |
 | FS-1052 ARQ | Federal Standard 1052 | New | High |
-| Modern Qt6 UI | - | New | Medium |
+| Modern UI | - | New | Medium |
 | SDR Integration | SDRplay API | **In Progress** | Medium |
 | Radio CAT Control | Various | New | Low-Medium |
 | HF Channel Simulator | Watterson Model | Port IONOS (MIT) | Low |
@@ -273,7 +273,7 @@ You don't have to go through Phoenix Nest to contribute code. If you have:
 |--------|--------|-------------|
 | MELPe Voice | TI Patent | Codec2 (open source) or license |
 | Brain Core (Cm110s) | Proprietary | Use Pennington Core |
-| MARS-ALE UI Code | Proprietary | Clean-room Qt6 |
+| MARS-ALE UI Code | Proprietary | Clean-room UI |
 
 ### Reference Only (No Code Derivation)
 
@@ -615,7 +615,6 @@ This is the path to something better. Clean-room. Open source. Modern. Cross-pla
 
 ---
 
-*Draft prepared 22 December 2025*  
 *Alex Pennington, AAM402/KY4OLB*
 
 *Contact: projects@organicengineer.com*  
