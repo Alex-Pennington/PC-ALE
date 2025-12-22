@@ -14,7 +14,7 @@
 Clean-room reimplementation of PC-ALE for amateur radio use, built entirely from public MIL-STD documents using AI-assisted development. No proprietary code. Modern cross-platform architecture.
 
 **Target Platforms:** Windows 11, Debian 13, Raspberry Pi 5, macOS  
-**License:** Open Source (MIT or GPL v2)  
+**License:** MIT  
 **Relationship to MARS:** Separate codebase, interoperable output
 
 ---
