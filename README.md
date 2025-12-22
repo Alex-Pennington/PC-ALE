@@ -4,7 +4,8 @@
 **Project:** PC-ALE 2.0  
 **Author:** Alex Pennington, AAM402/KY4OLB  
 **Date:** 22 December 2025  
-**Version:** Draft 1.0
+**Version:** Draft 1.0  
+**UI Concept:** https://alex-pennington.github.io/pcale-ui-concept/
 
 ---
 
