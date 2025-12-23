@@ -2,7 +2,7 @@
 
 ## Overview
 
-PC-ALE 2.0 implements a **layered architecture** following the OSI reference model, with each phase corresponding to a distinct layer. The system progresses from physical signal processing up to reliable data transfer.
+PC-ALE 2.0 implements a **layered architecture**. Note that MIL-STD-188-141 uses a military-specific layer numbering (Layers 8-9 for subnetwork access) rather than the traditional OSI model (Layers 1-7). For clarity, this documentation uses a simplified 1-5 numbering for the PC-ALE protocol stack, with PAL (Platform Abstraction Layer) sitting below as the hardware interface.
 
 ---
 
@@ -93,12 +93,14 @@ The diagram above shows "Audio I/O" as a future phase. In reality, the **interfa
 ```
 ┌──────────────────────────────┬──────────────────────────────────┐
 │  PC-ALE Protocol Stack (This Repo)                               │
-│  Layers 1-5: Physical (Modem), Protocol, Link, Data Link, App   │
+│  Application → Data Link → Link → Protocol → Physical (Modem)   │
+│  (Layers 1-5 in this documentation)                             │
 └──────────────────────────────┬──────────────────────────────────┘
                                │ Depends on interfaces from:
 ┌──────────────────────────────▼──────────────────────────────────┐
 │  PC-ALE-PAL (Interface Definitions)                              │
-│  Platform Abstraction Layer (Below Layer 1)                     │
+│  Platform Abstraction Layer                                     │
+│  (MIL-STD Layers 8-9: Subnetwork Access/Convergence)            │
 │  ┌────────────────────────────────────────────────────────┐     │
 │  │  Interface Contracts (Pure Virtual)                    │     │
 │  │  • IAudioDriver::initialize(sample_rate, buffer_size)  │     │
@@ -113,6 +115,7 @@ The diagram above shows "Audio I/O" as a future phase. In reality, the **interfa
                                │ Implemented by:
 ┌──────────────────────────────▼──────────────────────────────────┐
 │  Platform Implementation (Community Repos)                       │
+│  Hardware Drivers: Audio I/O, Radio Control, Timers             │
 │  • ALSA/PulseAudio (Linux)                                      │
 │  • WASAPI/DirectSound (Windows)                                 │
 │  • CoreAudio (macOS)                                            │
@@ -120,6 +123,11 @@ The diagram above shows "Audio I/O" as a future phase. In reality, the **interfa
 │  • SoapySDR/UHD (SDR hardware)                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+**Note on Layer Numbering:**
+- **MIL-STD-188-141** uses Layers 8-9 for the "subnetwork access" and "subnetwork dependent convergence" layers (what we call PAL)
+- **This documentation** uses Layers 1-5 for clarity, with the modem as Layer 1 (Physical)
+- PAL provides the hardware abstraction that military standards describe as Layers 8-9
 
 **Key Point:** PC-ALE core code **never calls ALSA/WASAPI directly**. It only uses PAL interfaces. Platform implementations provide the concrete classes.
 
