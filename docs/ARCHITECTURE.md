@@ -86,6 +86,61 @@ PC-ALE 2.0 implements a **layered architecture** following the OSI reference mod
 
 ---
 
+### Platform Abstraction Layer (Separate Repository)
+
+The diagram above shows "Audio I/O" as a future phase. In reality, the **interface contracts** are defined in the separate [PC-ALE-PAL](https://github.com/Alex-Pennington/PC-ALE-PAL) repository.
+
+```
+┌──────────────────────────────┬──────────────────────────────────┐
+│  PC-ALE Protocol Stack (This Repo)                               │
+│  Layers 3-7: ALE, ARQ, Protocol, Modem                          │
+└──────────────────────────────┬──────────────────────────────────┘
+                               │ Depends on interfaces from:
+┌──────────────────────────────▼──────────────────────────────────┐
+│  PC-ALE-PAL (Interface Definitions)                              │
+│  Layers 1-2: Hardware Abstraction                               │
+│  ┌────────────────────────────────────────────────────────┐     │
+│  │  Interface Contracts (Pure Virtual)                    │     │
+│  │  • IAudioDriver::initialize(sample_rate, buffer_size)  │     │
+│  │  • IAudioDriver::read(samples[], count)                │     │
+│  │  • IAudioDriver::write(samples[], count)               │     │
+│  │  • IRadio::set_frequency(hz)                           │     │
+│  │  • IRadio::set_ptt(bool transmit)                      │     │
+│  │  • ITimer::get_time_ms()                               │     │
+│  │  • ILogger::log(level, message)                        │     │
+│  └────────────────────────────────────────────────────────┘     │
+└──────────────────────────────┬──────────────────────────────────┘
+                               │ Implemented by:
+┌──────────────────────────────▼──────────────────────────────────┐
+│  Platform Implementation (Community Repos)                       │
+│  • ALSA/PulseAudio (Linux)                                      │
+│  • WASAPI/DirectSound (Windows)                                 │
+│  • CoreAudio (macOS)                                            │
+│  • Circle I2S (Raspberry Pi bare metal)                         │
+│  • SoapySDR/UHD (SDR hardware)                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Point:** PC-ALE core code **never calls ALSA/WASAPI directly**. It only uses PAL interfaces. Platform implementations provide the concrete classes.
+
+**Example:**
+```cpp
+// In your platform code (e.g., PC-ALE-Linux-DRAWS)
+#include "pc-ale-pal/IAudioDriver.h"
+#include <alsa/asoundlib.h>
+
+class ALSAAudioDriver : public IAudioDriver {
+    // Implement all pure virtual methods using ALSA
+};
+
+// In your main application
+ALSAAudioDriver audio;
+audio.initialize(8000, 512);
+ale_state_machine.set_audio_driver(&audio);  // Inject dependency
+```
+
+---
+
 ## Data Flow
 
 ### Transmit Path
@@ -243,6 +298,51 @@ libale_fs1052.a
     └─ Depends on: ale_protocol, ale_fsk_core, ale_fec
     └─ Used by: Applications (optional)
 ```
+
+### Platform Abstraction Layer Interfaces
+
+PC-ALE core depends on **abstractions** defined in [PC-ALE-PAL](https://github.com/Alex-Pennington/PC-ALE-PAL):
+
+```
+PC-ALE-PAL Repository:
+    include/pal/
+        ├── IAudioDriver.h       - Audio I/O abstraction
+        ├── IRadio.h             - Radio control abstraction
+        ├── ITimer.h             - Timing abstraction
+        ├── ILogger.h            - Logging abstraction
+        ├── IEventHandler.h      - Threading/event abstraction
+        └── ISIS.h               - Serial I/O abstraction
+
+PC-ALE Core Usage:
+    FFTDemodulator needs:    IAudioDriver::read()
+    ToneGenerator needs:     IAudioDriver::write()
+    ALEStateMachine needs:   ITimer::get_time_ms(), IRadio::set_frequency()
+    PTT control needs:       IRadio::set_ptt()
+    Debugging needs:         ILogger::log()
+```
+
+**Dependency Injection Pattern:**
+
+```cpp
+class ALEStateMachine {
+    IAudioDriver* audio_;  // Injected at runtime
+    IRadio* radio_;        // Injected at runtime
+    ITimer* timer_;        // Injected at runtime
+    
+public:
+    void set_audio_driver(IAudioDriver* driver) { audio_ = driver; }
+    void set_radio_driver(IRadio* driver) { radio_ = driver; }
+    void set_timer(ITimer* timer) { timer_ = timer; }
+    
+    // Now state machine can call audio_->read() without knowing
+    // if it's ALSA, WASAPI, or bare metal I2S!
+};
+```
+
+**This enables:**
+- ✅ Unit testing with mock drivers
+- ✅ Platform portability (same core code everywhere)
+- ✅ Runtime driver selection (choose ALSA vs PulseAudio at startup)
 
 ### Class Hierarchy
 

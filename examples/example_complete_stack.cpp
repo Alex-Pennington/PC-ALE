@@ -26,10 +26,20 @@
 using namespace ale;
 
 // ============================================================================
-// Mock Hardware Interface
+// Hardware Interface (using PC-ALE-PAL abstractions)
 // ============================================================================
 
+// NOTE: In a real implementation, you would:
+// 1. Clone PC-ALE-PAL: git submodule add https://github.com/Alex-Pennington/PC-ALE-PAL.git extern/PAL
+// 2. Include PAL headers: #include "pal/IRadio.h", #include "pal/IAudioDriver.h"
+// 3. Create platform-specific implementations (ALSAAudioDriver, HamlibRadio, etc.)
+// 4. Inject them into ALEStateMachine
+//
+// For this example, we use simple mock implementations.
+
+// Mock implementation of PAL's IRadio interface
 class MockRadio {
+    // In production: class HamlibRadio : public pal::IRadio { ... }
 public:
     void tune(uint32_t frequency_hz, const std::string& mode) {
         current_frequency = frequency_hz;
@@ -38,14 +48,22 @@ public:
                   << " kHz " << mode << "\n";
     }
     
+    void set_ptt(bool transmit) {
+        ptt_active = transmit;
+        std::cout << "  Radio: PTT " << (transmit ? "ON" : "OFF") << "\n";
+    }
+    
     uint32_t get_frequency() const { return current_frequency; }
     
 private:
     uint32_t current_frequency = 0;
     std::string current_mode = "USB";
+    bool ptt_active = false;
 };
 
+// Mock implementation of PAL's IAudioDriver interface
 class MockModem {
+    // In production: class ALSAAudioDriver : public pal::IAudioDriver { ... }
 public:
     MockModem() : generator() {}
     

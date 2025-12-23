@@ -73,7 +73,64 @@ The protocol stack is complete. What remains are **integration layers**:
 
 ---
 
-## 📐 Architecture
+## 🏗️ Architecture: Protocol Stack + Platform Layer
+
+PC-ALE 2.0 uses a **two-repository architecture**:
+
+```
+┌─────────────────────────────────────────────────────┐
+│  PC-ALE (This Repository)                           │
+│  ┌───────────────────────────────────────────────┐  │
+│  │ Layers 3-7: ALE Protocol Stack                │  │
+│  │ • FS-1052 ARQ (Layer 4)                       │  │
+│  │ • ALE State Machine (Layer 3)                 │  │
+│  │ • 2G/AQC Protocol, LQA (Layer 3)              │  │
+│  │ • 8-FSK Modem, Golay FEC (Physical)           │  │
+│  └───────────────┬───────────────────────────────┘  │
+└──────────────────┼──────────────────────────────────┘
+                   │ Uses interfaces from
+┌──────────────────▼──────────────────────────────────┐
+│  PC-ALE-PAL (Platform Abstraction Layer)            │
+│  ┌───────────────────────────────────────────────┐  │
+│  │ Layers 1-2: Hardware Abstraction Interfaces   │  │
+│  │ • IAudioDriver - Sound card I/O               │  │
+│  │ • IRadio - Frequency, mode, PTT, power        │  │
+│  │ • ITimer - Millisecond timing                 │  │
+│  │ • ILogger - Diagnostic output                 │  │
+│  │ • IEventHandler - Threading/callbacks         │  │
+│  │ • ISIS - Serial communication                 │  │
+│  └───────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────┘
+                   │ Implemented by
+┌──────────────────▼──────────────────────────────────┐
+│  Platform-Specific Repositories (Community)          │
+│  • PC-ALE-Linux-DRAWS (ALSA, libgpiod)              │
+│  • PC-ALE-Windows (WASAPI, Hamlib)                  │
+│  • PC-ALE-RaspberryPi-Bare (Circle framework)       │
+│  • PC-ALE-SDR (SoapySDR/UHD implementation)         │
+└─────────────────────────────────────────────────────┘
+```
+
+**Why Separate Repositories?**
+- PC-ALE = **Pure protocol stack** (no OS dependencies)
+- [PC-ALE-PAL](https://github.com/Alex-Pennington/PC-ALE-PAL) = **Interface contracts** (what must be implemented)
+- Platform repos = **Concrete implementations** (ALSA, WASAPI, etc.)
+
+**This enables:**
+- ✅ Same protocol code on Windows, Linux, macOS, bare metal
+- ✅ Multiple platforms can be developed in parallel
+- ✅ Clean separation: protocol maintainers don't need hardware expertise
+- ✅ Community can contribute platform ports without touching core
+
+**Get Started:**
+1. Clone PC-ALE (protocol stack) - this repository
+2. Clone [PC-ALE-PAL](https://github.com/Alex-Pennington/PC-ALE-PAL) (interfaces)
+3. Clone or create a platform implementation (e.g., PC-ALE-Linux-DRAWS)
+4. Build and run!
+
+---
+
+## 📐 Layer Details
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
