@@ -1,0 +1,2 @@
+C:\Users\rayve\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\ar.exe qc libale_aqc.a CMakeFiles/ale_aqc.dir/src/protocol/aqc_parser.cpp.obj
+C:\Users\rayve\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\ranlib.exe libale_aqc.a

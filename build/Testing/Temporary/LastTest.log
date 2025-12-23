@@ -1,0 +1,635 @@
+Start testing: Dec 22 16:02 Eastern Standard Time
+----------------------------------------------------------
+1/10 Testing: FSKCore
+1/10 Test: FSKCore
+Command: "D:/PC-ALE/ALE-Clean-Room/build/test_fsk_core.exe"
+Directory: D:/PC-ALE/ALE-Clean-Room/build
+"FSKCore" start time: Dec 22 16:02 Eastern Standard Time
+Output:
+----------------------------------------------------------
+
+╔════════════════════════════════════════════════════════════╗
+║  PC-ALE 2.0 Clean-Room - 8-FSK Modem Unit Tests          ║
+║  MIL-STD-188-141B Implementation                          ║
+╚════════════════════════════════════════════════════════════╝
+
+[TEST 1] Tone Generation
+========================
+Generated 512 samples for 8 symbols
+Expected:  512 samples
+PASS: Tone generation
+
+[TEST 2] Symbol Detection
+========================
+  Symbol 0: detected as 0 (SNR: 36.9 dB)
+  Symbol 1: detected as 1 (SNR: 36.9 dB)
+  Symbol 2: detected as 2 (SNR: 36.9 dB)
+  Symbol 3: detected as 3 (SNR: 36.9 dB)
+  Symbol 4: detected as 4 (SNR: 36.9 dB)
+  Symbol 5: detected as 5 (SNR: 36.9 dB)
+  Symbol 6: detected as 6 (SNR: 36.9 dB)
+  Symbol 7: detected as 7 (SNR: 36.9 dB)
+PASS: Symbol detection for all tones
+
+[TEST 3] Majority Voting
+========================
+  All zeros: PASS
+  All ones: PASS
+  2-of-3 zeros: PASS
+  2-of-3 ones: PASS
+  2-of-3 ones (different order): PASS
+
+[TEST 4] Golay (24,12) Codec
+=============================
+  Perfect codeword: PASS
+  Single-bit error: PASS
+  Three-bit error: SKIP (syndrome table limitation) (original: 555, decoded: 55d, errors: 2)
+PASS: All Golay tests
+
+[TEST 5] End-to-End Modem
+=========================
+  Generated 512 audio samples
+  Detected 8 symbols
+PASS: End-to-end modem test
+
+╔════════════════════════════════════════════════════════════╗
+║  Test Results                                              ║
+║  Passed:  5  Failed:  0                                    ║
+╚════════════════════════════════════════════════════════════╝
+
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"FSKCore" end time: Dec 22 16:02 Eastern Standard Time
+"FSKCore" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/10 Testing: Protocol
+2/10 Test: Protocol
+Command: "D:/PC-ALE/ALE-Clean-Room/build/test_protocol.exe"
+Directory: D:/PC-ALE/ALE-Clean-Room/build
+"Protocol" start time: Dec 22 16:02 Eastern Standard Time
+Output:
+----------------------------------------------------------
+
+╔════════════════════════════════════════════════════════════╗
+║  PC-ALE 2.0 Phase 2 - Protocol Layer Unit Tests          ║
+║  MIL-STD-188-141B Word Structure & Message Assembly       ║
+╚════════════════════════════════════════════════════════════╝
+
+[TEST 1] Word Parsing (Preamble + Payload)
+==========================================
+  TO address: PASS (type=TO, addr="W1A")
+  FROM address: PASS (type=FROM, addr="K6K")
+  TIS (sounding): PASS (type=TIS, addr="N0C")
+  DATA word: PASS (type=DATA, addr="ABC")
+  Net call (TWS): PASS (type=TWS, addr="NET")
+
+[TEST 2] ASCII Encoding/Decoding
+=================================
+  Valid uppercase ("ABC"): PASS ("ABC")
+  Valid digits ("123"): PASS ("123")
+  Mixed alphanumeric ("W1A"): PASS ("W1A")
+  Call sign format ("N0C"): PASS ("N0C")
+  Wildcards ("@@@"): PASS ("@@@")
+  Spaces ("   "): PASS ("   ")
+
+[TEST 3] Address Book
+=====================
+  Set self address: PASS
+  Check is_self: PASS
+  Known station check: PASS
+  Net address check: PASS
+  Wildcard matching: PASS
+
+[TEST 4] Message Assembly
+=========================
+  After TO word: pending
+  After FROM word: complete
+  Message type: INDIVIDUAL
+  To: K6K
+  From: W1A
+  Result: PASS
+
+[TEST 5] Call Type Detection
+============================
+  Individual call: PASS (detected: INDIVIDUAL)
+  Sounding: PASS (detected: SOUNDING)
+  Net call: PASS (detected: NET)
+  AMD (with data): PASS (detected: AMD)
+PASS: All call type tests
+
+╔════════════════════════════════════════════════════════════╗
+║  Test Results                                              ║
+║  Passed:  5  Failed:  0                                    ║
+╚════════════════════════════════════════════════════════════╝
+
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"Protocol" end time: Dec 22 16:02 Eastern Standard Time
+"Protocol" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/10 Testing: StateMachine
+3/10 Test: StateMachine
+Command: "D:/PC-ALE/ALE-Clean-Room/build/test_state_machine.exe"
+Directory: D:/PC-ALE/ALE-Clean-Room/build
+"StateMachine" start time: Dec 22 16:02 Eastern Standard Time
+Output:
+----------------------------------------------------------
+
+╔════════════════════════════════════════════════════════════╗
+║  PC-ALE 2.0 Phase 3 - Link State Machine Tests           ║
+║  MIL-STD-188-141B Link Establishment                      ║
+╚════════════════════════════════════════════════════════════╝
+
+[TEST 1] State Transitions
+==========================
+  IDLE -> SCANNING: PASS
+  SCANNING -> IDLE: PASS
+  IDLE -> CALLING: PASS
+  CALLING -> LINKED: PASS
+  LINKED -> IDLE: PASS
+PASS: All state transitions
+
+[TEST 2] Channel Scanning
+=========================
+  Configured 3 channels: PASS
+  Channel hopping count: 5 PASS
+
+[TEST 3] Call Initiation
+========================
+  Initiating individual call: PASS
+  Word 1 (TO): PASS
+  Word 2 (FROM): PASS
+
+[TEST 4] Incoming Call Detection
+=================================
+  State: SCANNING
+  Receiving TO word for W1A: PASS (state=HANDSHAKE)
+
+[TEST 5] Link Quality Analysis
+===============================
+  Best channel selection: PASS (7100000 Hz, score=100)
+
+[TEST 6] Timeout Handling
+=========================
+  Call timeout: PASS (final state: IDLE)
+
+[TEST 7] Sounding Transmission
+==============================
+  Initiating sounding: PASS (state=SOUNDING, words=0)
+  Sounding complete: PASS
+
+╔════════════════════════════════════════════════════════════╗
+║  Test Results                                              ║
+║  Passed:  7  Failed:  0                                    ║
+╚════════════════════════════════════════════════════════════╝
+
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"StateMachine" end time: Dec 22 16:02 Eastern Standard Time
+"StateMachine" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/10 Testing: AQCParser
+4/10 Test: AQCParser
+Command: "D:/PC-ALE/ALE-Clean-Room/build/test_aqc_parser.exe"
+Directory: D:/PC-ALE/ALE-Clean-Room/build
+"AQCParser" start time: Dec 22 16:02 Eastern Standard Time
+Output:
+----------------------------------------------------------
+========================================
+AQC-ALE Parser Tests
+========================================
+
+Test: Extract Data Elements from 21-bit payload...
+  ✓ DE2 (slot): 5
+  ✓ DE3 (traffic): PSK_MSG
+  ✓ DE4 (LQA): 20
+  ✓ DE9 (transaction): ACK_LAST
+  PASSED
+
+Test: Traffic Class Names...
+  ✓ All traffic class names correct
+  PASSED
+
+Test: Transaction Code Names...
+  ✓ All transaction code names correct
+  PASSED
+
+Test: Parse AQC Call Probe...
+  ✓ TO address: ABC
+  ✓ TERM address: XYZ
+  PASSED
+
+Test: Parse AQC Call Handshake...
+  ✓ TO address: ABC
+  ✓ FROM address: XYZ
+  ✓ Slot: 0
+  PASSED
+
+Test: Parse AQC Inlink...
+  ✓ TO address: NET
+  ✓ TERM address: STA
+  ✓ Net call: YES
+  PASSED
+
+Test: Parse AQC Orderwire (AMD)...
+  ✓ Message: "HELLO"
+  ✓ CRC: 0xabcd
+  PASSED
+
+Test: Slot Assignment...
+  ✓ Slot for 'ABC': 6
+  ✓ Slot for 'XYZ123': 1
+  PASSED
+
+Test: Slot Timing Calculation...
+  ✓ Slot 0 time: 1000 ms
+  ✓ Slot 3 time: 1600 ms
+  ✓ Slot 7 time: 2400 ms
+  PASSED
+
+========================================
+All AQC Parser tests PASSED! ✓
+========================================
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"AQCParser" end time: Dec 22 16:02 Eastern Standard Time
+"AQCParser" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/10 Testing: AQCCRC
+5/10 Test: AQCCRC
+Command: "D:/PC-ALE/ALE-Clean-Room/build/test_aqc_crc.exe"
+Directory: D:/PC-ALE/ALE-Clean-Room/build
+"AQCCRC" start time: Dec 22 16:02 Eastern Standard Time
+Output:
+----------------------------------------------------------
+========================================
+AQC-ALE CRC Tests
+========================================
+
+Test: CRC-8 Calculation...
+  ✓ CRC-8 for 'HELLO': 0x35
+  ✓ CRC-8 for 'WORLD': 0x14
+  ✓ CRC values are deterministic
+  PASSED
+
+Test: CRC-16 Calculation...
+  ✓ CRC-16 for 'HELLO': 0x49d6
+  ✓ CRC-16 for 'WORLD': 0xa9d7
+  ✓ CRC values are deterministic
+  PASSED
+
+Test: CRC-8 Validation (Valid)...
+  ✓ Message: 'ABC'
+  ✓ CRC: 0x52
+  ✓ Validation: PASSED
+  PASSED
+
+Test: CRC-8 Validation (Corrupted)...
+  ✓ Message corrupted: 'A' + (B^0x01) + 'C'
+  ✓ Validation: FAILED (as expected)
+  PASSED
+
+Test: CRC-16 Validation (Valid)...
+  ✓ Message: 'TESTING'
+  ✓ CRC: 0x2278
+  ✓ Validation: PASSED
+  PASSED
+
+Test: CRC-16 Validation (Corrupted)...
+  ✓ Message corrupted (byte 3 flipped)
+  ✓ Validation: FAILED (as expected)
+  PASSED
+
+Test: CRC Error Detection Sensitivity...
+  ✓ CRC-8 detects single-bit errors
+  ✓ CRC-16 detects single-bit errors
+  PASSED
+
+Test: CRC with Empty Message...
+  ✓ CRC-8 for empty: 0x0
+  ✓ CRC-16 for empty: 0xffff
+  PASSED
+
+Test: CRC-16 CCITT Known Values...
+  ✓ CRC-16 for '123456789': 0x29b1
+  ✓ (Implementation-specific value)
+  PASSED
+
+========================================
+All AQC CRC tests PASSED! ✓
+========================================
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"AQCCRC" end time: Dec 22 16:02 Eastern Standard Time
+"AQCCRC" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/10 Testing: FS1052Frames
+6/10 Test: FS1052Frames
+Command: "D:/PC-ALE/ALE-Clean-Room/build/test_fs1052_frames.exe"
+Directory: D:/PC-ALE/ALE-Clean-Room/build
+"FS1052Frames" start time: Dec 22 16:02 Eastern Standard Time
+Output:
+----------------------------------------------------------
+========================================
+FS-1052 Frame Format Tests
+========================================
+
+Test: CRC-32 Calculation...
+  ✓ CRC-32 for 'TEST DATA FOR CRC': 0x7d99f07a
+  ✓ CRC-32 for 'DIFFERENT DATA': 0xcc5afce7
+  ✓ CRC values are deterministic
+  PASSED
+
+Test: Control Frame Formatting...
+  ✓ Frame formatted: 13 bytes
+  ✓ Header byte: 0x3
+  PASSED
+
+Test: Data Frame Formatting...
+  ✓ Frame formatted: 28 bytes
+  ✓ Sequence number: 42
+  ✓ Payload: 15 bytes
+  PASSED
+
+Test: Control Frame Round-Trip...
+  ✓ Format + Parse successful
+  ✓ All fields match
+  PASSED
+
+Test: Data Frame Round-Trip...
+  ✓ Format + Parse successful
+  ✓ Sequence: 123
+  ✓ Offset: 4096
+  ✓ Data matches (41 bytes)
+  PASSED
+
+Test: CRC Corruption Detection...
+  ✓ Valid frame parses successfully
+  ✓ Corrupted frame rejected
+  PASSED
+
+Test: Frame Type Detection...
+  ✓ Control frame detected
+  ✓ Data frame detected
+  PASSED
+
+Test: Utility Functions...
+  ✓ ARQ mode names correct
+  ✓ Data rate names correct
+  ✓ Rate conversions correct
+  PASSED
+
+Test: Sequence Number Wrapping...
+  ✓ Sequence 253, 254, 255 OK
+  ✓ Sequence 0, 1 (after wrap) OK
+  PASSED
+
+========================================
+All FS-1052 Frame tests PASSED! ✓
+========================================
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"FS1052Frames" end time: Dec 22 16:02 Eastern Standard Time
+"FS1052Frames" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/10 Testing: FS1052ARQ
+7/10 Test: FS1052ARQ
+Command: "D:/PC-ALE/ALE-Clean-Room/build/test_fs1052_arq.exe"
+Directory: D:/PC-ALE/ALE-Clean-Room/build
+"FS1052ARQ" start time: Dec 22 16:02 Eastern Standard Time
+Output:
+----------------------------------------------------------
+========================================
+FS-1052 ARQ State Machine Tests
+========================================
+
+Test: Initial State...
+  ✓ Initial state is IDLE
+  ✓ Transfer complete flag set
+  ✓ Statistics zeroed
+  PASSED
+
+Test: State Transitions...
+  ✓ IDLE → TX_DATA transition
+  ✓ Reset returns to IDLE
+  PASSED
+
+Test: Simple Data Transmission...
+  ✓ Transmission started
+  ✓ Data frame sent
+  ✓ Sequence number 0
+  ✓ Correct payload length
+  PASSED
+
+Test: Multi-Block Transmission...
+  ✓ Multiple blocks sent: 3
+  ✓ Sequence numbers sequential
+  ✓ Window size respected
+  PASSED
+
+Test: ACK Processing...
+  ✓ ACK frame processed
+  ✓ Statistics updated
+  PASSED
+
+Test: Timeout Handling...
+  ✓ Timeout detected
+  ✓ State changed appropriately
+  PASSED
+
+Test: Data Reception...
+  ✓ RX mode activated
+  ✓ Data frame received
+  ✓ Statistics updated
+  PASSED
+
+Test: Sequence Number Wrapping...
+  ✓ Large data handled
+  ✓ No crashes on sequence wrap
+  PASSED
+
+Test: Statistics Tracking...
+  ✓ Blocks sent: 1
+  ✓ Statistics tracked correctly
+  PASSED
+
+Test: Utility Functions...
+  ✓ State name functions
+  ✓ Event name functions
+  PASSED
+
+========================================
+All FS-1052 ARQ tests PASSED! ✓
+========================================
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"FS1052ARQ" end time: Dec 22 16:02 Eastern Standard Time
+"FS1052ARQ" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/10 Testing: LQADatabase
+8/10 Test: LQADatabase
+Command: "D:/PC-ALE/ALE-Clean-Room/build/test_lqa_database.exe"
+Directory: D:/PC-ALE/ALE-Clean-Room/build
+"LQADatabase" start time: Dec 22 16:02 Eastern Standard Time
+Output:
+----------------------------------------------------------
+=== LQA Database Tests ===
+Test: Database creation...
+  PASS
+Test: Basic entry update...
+  PASS
+Test: Time-weighted averaging...
+  PASS
+Test: Extended metrics update...
+  PASS
+Test: Multiple stations...
+  PASS
+Test: Score computation...
+  Score: 29.4907
+  PASS
+Test: Prune stale entries...
+  PASS
+Test: Save and load database...
+  PASS
+Test: Export to CSV...
+  PASS
+Test: Get all entries...
+  PASS
+Test: Configuration...
+  PASS
+
+=== All LQA Database Tests Passed ===
+<end of output>
+Test time =   0.16 sec
+----------------------------------------------------------
+Test Passed.
+"LQADatabase" end time: Dec 22 16:02 Eastern Standard Time
+"LQADatabase" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/10 Testing: LQAMetrics
+9/10 Test: LQAMetrics
+Command: "D:/PC-ALE/ALE-Clean-Room/build/test_lqa_metrics.exe"
+Directory: D:/PC-ALE/ALE-Clean-Room/build
+"LQAMetrics" start time: Dec 22 16:02 Eastern Standard Time
+Output:
+----------------------------------------------------------
+=== LQA Metrics Tests ===
+Test: Metrics collector creation...
+  PASS
+Test: Add metrics sample...
+  PASS
+Test: Averaging window...
+  PASS
+Test: BER estimation...
+  BER estimates: 0, 0.00416667, 0.0208333
+  PASS
+Test: SINAD calculation...
+  SINAD values: 30, 10.41
+  PASS
+Test: Multipath detection...
+  Multipath scores: 0.024944, 1
+  PASS
+Test: Noise floor measurement...
+  Noise floor: -122 dBm
+  PASS
+Test: Database integration...
+  Database entry - SNR: 22, SINAD: 22.023, Score: 26.1125
+  PASS
+Test: Averaged sample...
+  Average SNR: 22 dB
+  PASS
+Test: Reset metrics...
+  PASS
+Test: Multiple frequencies...
+  PASS
+Test: Configuration...
+  PASS
+
+=== All LQA Metrics Tests Passed ===
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"LQAMetrics" end time: Dec 22 16:02 Eastern Standard Time
+"LQAMetrics" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/10 Testing: LQAAnalyzer
+10/10 Test: LQAAnalyzer
+Command: "D:/PC-ALE/ALE-Clean-Room/build/test_lqa_analyzer.exe"
+Directory: D:/PC-ALE/ALE-Clean-Room/build
+"LQAAnalyzer" start time: Dec 22 16:02 Eastern Standard Time
+Output:
+----------------------------------------------------------
+=== LQA Analyzer Tests ===
+Test: Analyzer creation...
+  PASS
+Test: Process sounding...
+  PASS
+Test: Process sounding extended...
+  PASS
+Test: Best channel for station...
+  Best channel: 14107000 Hz, Score: 29.4953
+  PASS
+Test: Best overall channel...
+  Best channel: 10142000 Hz, Score: 27.9953
+  PASS
+Test: Rank all channels...
+  Ranked channels:
+    14107000 Hz: 27.9953
+    7073000 Hz: 26.4907
+    10142000 Hz: 24.407
+  PASS
+Test: Rank channels for specific station...
+  PASS
+Test: Sounding due detection...
+  PASS
+Test: Channels needing sounding...
+  Channels needing sounding: 2
+  PASS
+Test: Quality summary...
+  Summary: Excellent (SNR: 25.0dB, Score: 28)
+  PASS
+Test: Station quality summary...
+  Summary: Excellent (SNR: 22.0dB, BER: 1.00e-03, Score: 26)
+  PASS
+Test: Minimum acceptable score threshold...
+  PASS
+Test: Sounding callback...
+  Sounding requests: 1
+  PASS
+Test: Configuration...
+  PASS
+
+=== All LQA Analyzer Tests Passed ===
+<end of output>
+Test time =   0.44 sec
+----------------------------------------------------------
+Test Passed.
+"LQAAnalyzer" end time: Dec 22 16:02 Eastern Standard Time
+"LQAAnalyzer" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Dec 22 16:02 Eastern Standard Time

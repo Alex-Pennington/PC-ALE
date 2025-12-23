@@ -93,12 +93,12 @@ The diagram above shows "Audio I/O" as a future phase. In reality, the **interfa
 ```
 ┌──────────────────────────────┬──────────────────────────────────┐
 │  PC-ALE Protocol Stack (This Repo)                               │
-│  Layers 3-7: ALE, ARQ, Protocol, Modem                          │
+│  Layers 1-5: Physical (Modem), Protocol, Link, Data Link, App   │
 └──────────────────────────────┬──────────────────────────────────┘
                                │ Depends on interfaces from:
 ┌──────────────────────────────▼──────────────────────────────────┐
 │  PC-ALE-PAL (Interface Definitions)                              │
-│  Layers 1-2: Hardware Abstraction                               │
+│  Platform Abstraction Layer (Below Layer 1)                     │
 │  ┌────────────────────────────────────────────────────────┐     │
 │  │  Interface Contracts (Pure Virtual)                    │     │
 │  │  • IAudioDriver::initialize(sample_rate, buffer_size)  │     │

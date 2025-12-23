@@ -1,0 +1,2 @@
+C:\Users\rayve\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\ar.exe qc libale_protocol.a CMakeFiles/ale_protocol.dir/src/protocol/ale_word.cpp.obj CMakeFiles/ale_protocol.dir/src/protocol/ale_message.cpp.obj
+C:\Users\rayve\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\ranlib.exe libale_protocol.a

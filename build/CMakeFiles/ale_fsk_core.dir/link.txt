@@ -1,0 +1,2 @@
+C:\Users\rayve\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\ar.exe qc libale_fsk_core.a CMakeFiles/ale_fsk_core.dir/src/fsk/fft_demodulator.cpp.obj CMakeFiles/ale_fsk_core.dir/src/fsk/tone_generator.cpp.obj CMakeFiles/ale_fsk_core.dir/src/fsk/symbol_decoder.cpp.obj CMakeFiles/ale_fsk_core.dir/src/core/types.cpp.obj
+C:\Users\rayve\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\ranlib.exe libale_fsk_core.a

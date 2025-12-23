@@ -1,0 +1,1 @@
+ libale_link.a libale_protocol.a libale_fsk_core.a libale_fec.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

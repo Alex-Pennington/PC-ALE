@@ -1,0 +1,2 @@
+C:\Users\rayve\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\ar.exe qc libale_lqa.a CMakeFiles/ale_lqa.dir/src/lqa_database.cpp.obj CMakeFiles/ale_lqa.dir/src/lqa_metrics.cpp.obj CMakeFiles/ale_lqa.dir/src/lqa_analyzer.cpp.obj
+C:\Users\rayve\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\ranlib.exe libale_lqa.a
